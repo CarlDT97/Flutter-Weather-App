@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../views/info_page.dart';
-import '../views/weather_page.dart';
-
 class AppViewModel extends ChangeNotifier {
   Color clr1 = Colors.grey.shade50;
   Color clr2 = Colors.grey.shade200;
