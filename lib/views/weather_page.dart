@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/views/weatherBox.dart';
-import '../view_models/app_view_model.dart';
+
+import '../logic/location_service.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -18,20 +19,28 @@ class _WeatherPageState extends State<WeatherPage> {
   String timeString = "";
   String celsius = " °C";
   String iconURL = "";
+  late bool stateValue;
   TextEditingController searchController = TextEditingController();
   bool showSearchBar = true;
 
   @override
   void initState() {
     super.initState();
-    _fetchWeatherData("Lund"); // Fetch weather data for initial location
+    _fetchWeatherData("");
+    location = "Enter a city";
+    timeNow = "";
+    conditions = "";
+    temperature = 0;
+    temperatureString = temperature.toStringAsFixed(1) + celsius;
+    iconURL = "question";
+    stateValue = true;
   }
 
   Future<void> _fetchWeatherData(String location) async {
     final weatherService = WeatherService();
     final weatherData = await weatherService.getWeatherData(location);
     setState(() {
-      this.location = weatherData.cityName;
+      location = weatherData.cityName;
       timeNow = weatherData.dtUtcString;
       conditions = weatherData.condition;
       temperature = weatherData.temperature;
@@ -54,6 +63,9 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
           ),
           content: TextField(
+            style: TextStyle(
+              color: Colors.amberAccent, // Set the color of the input text
+            ),
             controller: searchController,
             decoration: const InputDecoration(
               helperStyle: TextStyle(
@@ -71,7 +83,11 @@ class _WeatherPageState extends State<WeatherPage> {
               onPressed: () {
                 String searchTerm = searchController.text;
                 _fetchWeatherData(searchTerm);
-                Navigator.pop(context); // Close the dialog
+                stateValue = false;
+                location = searchTerm;
+                searchController.clear();
+
+                Navigator.pop(context);
               },
               child: const Text(
                 "Search",
@@ -101,6 +117,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 conditions: conditions,
                 temp: temperatureString,
                 icon: iconURL,
+                noQuary: stateValue,
               ),
             ],
           ),
