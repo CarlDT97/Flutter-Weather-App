@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/views/info_page.dart';
 import 'package:weather_app/views/weather_page.dart';
 
-class BottomNavigationDemo extends StatefulWidget {
+class BottomNavigation extends StatefulWidget {
   @override
-  _BottomNavigationDemoState createState() => _BottomNavigationDemoState();
+  _BottomNavigationState createState() => _BottomNavigationState();
 }
 
-class _BottomNavigationDemoState extends State<BottomNavigationDemo> {
+class _BottomNavigationState extends State<BottomNavigation> {
   int _currentIndex = 0;
 
   final List<Widget> views = [
@@ -20,6 +20,14 @@ class _BottomNavigationDemoState extends State<BottomNavigationDemo> {
     return Scaffold(
       body: views[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        fixedColor: Colors.amberAccent,
+        showSelectedLabels: true,
+        unselectedLabelStyle: const TextStyle(
+          color: Colors.amberAccent,
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+        ),
+        backgroundColor: Colors.black,
         currentIndex: _currentIndex,
         onTap: (int index) {
           setState(() {
