@@ -20,7 +20,7 @@ class WeatherBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const textStyle = TextStyle(
-      color: Color.fromARGB(255, 250, 247, 247),
+      color: Colors.amberAccent,
       fontSize: 17,
       fontWeight: FontWeight.w400,
     );
@@ -30,6 +30,14 @@ class WeatherBox extends StatelessWidget {
         width: 250,
         height: 350,
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 3,
+              offset: const Offset(0, 2), // changes position of shadow
+            ),
+          ],
           border: Border.all(
             color: Colors.black,
             width: 5.0,

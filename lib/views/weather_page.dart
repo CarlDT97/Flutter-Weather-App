@@ -26,7 +26,7 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   void initState() {
     super.initState();
-    _fetchWeatherData("");
+    //_fetchWeatherData("");
     location = "Enter a city";
     timeNow = "";
     conditions = "";
@@ -63,8 +63,8 @@ class _WeatherPageState extends State<WeatherPage> {
             ),
           ),
           content: TextField(
-            style: TextStyle(
-              color: Colors.amberAccent, // Set the color of the input text
+            style: const TextStyle(
+              color: Colors.amberAccent,
             ),
             controller: searchController,
             decoration: const InputDecoration(
@@ -86,7 +86,6 @@ class _WeatherPageState extends State<WeatherPage> {
                 stateValue = false;
                 location = searchTerm;
                 searchController.clear();
-
                 Navigator.pop(context);
               },
               child: const Text(
