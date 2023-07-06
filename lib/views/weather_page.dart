@@ -3,6 +3,7 @@ import 'package:weather_app/logic/geolocation.dart';
 import 'package:weather_app/views/weatherBox.dart';
 
 import '../logic/location_service.dart';
+import 'searchWindow.dart';
 
 class WeatherPage extends StatefulWidget {
   const WeatherPage({Key? key}) : super(key: key);
@@ -57,7 +58,6 @@ class _WeatherPageState extends State<WeatherPage> {
       final weatherData =
           await weatherService.getWeatherDataCurrent(latitude, longitude);
 
-      // Use the latitude and longitude values as needed
       setState(() {
         this.location = weatherData.cityName;
         timeNow = weatherData.dtUtcString;
@@ -69,53 +69,8 @@ class _WeatherPageState extends State<WeatherPage> {
     } else {}
   }
 
-  void openSearchWindow(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.black,
-          title: const Text(
-            "Search for a city",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Colors.amberAccent,
-            ),
-          ),
-          content: TextField(
-            style: const TextStyle(
-              color: Colors.amberAccent,
-            ),
-            controller: searchController,
-            decoration: const InputDecoration(
-              helperStyle: TextStyle(
-                color: Colors.amberAccent,
-              ),
-              hintText: "Enter a city",
-              hintStyle: TextStyle(
-                color: Colors.yellow,
-                decorationColor: Colors.yellow,
-              ),
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                String searchTerm = searchController.text;
-                _fetchWeatherData(searchTerm);
-                stateValue = false;
-                searchController.clear();
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "Search",
-                style: TextStyle(color: Colors.amberAccent),
-              ),
-            ),
-          ],
-        );
-      },
-    );
+  void _openSearchWindow(BuildContext context) {
+    openSearchWindow(context, searchController, _fetchWeatherData);
   }
 
   @override
@@ -157,7 +112,7 @@ class _WeatherPageState extends State<WeatherPage> {
           FloatingActionButton(
             backgroundColor: Colors.black,
             onPressed: () {
-              openSearchWindow(context);
+              _openSearchWindow(context);
             },
             child: const Icon(
               Icons.search,

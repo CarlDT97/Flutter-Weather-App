@@ -45,7 +45,7 @@ class WeatherService {
     final String apiKey = getKey();
 
     final url =
-        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey&units=metric';
 
     try {
       final response = await http.get(Uri.parse(url));

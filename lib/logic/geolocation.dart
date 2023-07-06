@@ -35,7 +35,6 @@ class LocationService {
     );
 
     // Do something with the position (e.g., store it, display it, etc.)
-    print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
     return Pair<double, double>(position.latitude, position.longitude);
   }
 }
