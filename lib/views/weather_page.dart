@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/logic/geolocation.dart';
 import 'package:weather_app/views/weatherBox.dart';
 
 import '../logic/location_service.dart';
@@ -32,7 +33,8 @@ class _WeatherPageState extends State<WeatherPage> {
 
   Future<void> _fetchWeatherData(String location) async {
     final weatherService = WeatherService();
-    final weatherData = await weatherService.getWeatherData(location);
+    final weatherData = await weatherService.getWeatherDataSearch(location);
+
     setState(() {
       this.location = weatherData.cityName;
       timeNow = weatherData.dtUtcString;
@@ -41,6 +43,30 @@ class _WeatherPageState extends State<WeatherPage> {
       temperatureString = temperature.toStringAsFixed(1) + celsius;
       iconURL = weatherData.iconUrl;
     });
+  }
+
+  Future<void> _fetchMyWeather() async {
+    LocationService locationService = LocationService();
+    Pair<double, double>? location = await locationService.getLocation();
+
+    if (location != null) {
+      double latitude = location.first;
+      double longitude = location.second;
+
+      final weatherService = WeatherService();
+      final weatherData =
+          await weatherService.getWeatherDataCurrent(latitude, longitude);
+
+      // Use the latitude and longitude values as needed
+      setState(() {
+        this.location = weatherData.cityName;
+        timeNow = weatherData.dtUtcString;
+        conditions = weatherData.condition;
+        temperature = weatherData.temperature;
+        temperatureString = temperature.toStringAsFixed(1) + celsius;
+        iconURL = weatherData.iconUrl;
+      });
+    } else {}
   }
 
   void openSearchWindow(BuildContext context) {
@@ -67,8 +93,8 @@ class _WeatherPageState extends State<WeatherPage> {
               ),
               hintText: "Enter a city",
               hintStyle: TextStyle(
-                color: Colors.yellow, // or Colors.amberAccent
-                decorationColor: Colors.yellow, // or Colors.amberAccent
+                color: Colors.yellow,
+                decorationColor: Colors.yellow,
               ),
             ),
           ),
@@ -78,7 +104,6 @@ class _WeatherPageState extends State<WeatherPage> {
                 String searchTerm = searchController.text;
                 _fetchWeatherData(searchTerm);
                 stateValue = false;
-                //location = searchTerm;
                 searchController.clear();
                 Navigator.pop(context);
               },
@@ -110,21 +135,36 @@ class _WeatherPageState extends State<WeatherPage> {
                 conditions: conditions,
                 temp: temperatureString,
                 icon: iconURL,
-                noQuary: stateValue,
               ),
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        onPressed: () {
-          openSearchWindow(context);
-        },
-        child: const Icon(
-          Icons.search,
-          color: Colors.amberAccent,
-        ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            backgroundColor: Colors.black,
+            onPressed: () {
+              _fetchMyWeather();
+            },
+            child: const Icon(
+              Icons.my_location,
+              color: Colors.amberAccent,
+            ),
+          ),
+          const SizedBox(width: 16),
+          FloatingActionButton(
+            backgroundColor: Colors.black,
+            onPressed: () {
+              openSearchWindow(context);
+            },
+            child: const Icon(
+              Icons.search,
+              color: Colors.amberAccent,
+            ),
+          ),
+        ],
       ),
     );
   }

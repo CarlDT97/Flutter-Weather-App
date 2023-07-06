@@ -5,11 +5,47 @@ import 'package:weather_app/logic/api/api_key.dart';
 import '../constants/weather_model.dart';
 
 class WeatherService {
-  Future<WeatherData> getWeatherData(String city) async {
+  Future<WeatherData> getWeatherDataSearch(String city) async {
     final String apiKey = getKey();
 
     final url =
         'https://api.openweathermap.org/data/2.5/weather?q=$city&appid=$apiKey&units=metric';
+
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final weatherData = json.decode(response.body);
+
+        final cityName = weatherData['name'];
+        final temperature = weatherData['main']['temp'];
+        final condition = weatherData['weather'][0]['description'];
+        final icon = weatherData['weather'][0]['icon'];
+
+        final dt = weatherData['dt'];
+        DateTime currentTime = DateTime.fromMillisecondsSinceEpoch(dt * 1000);
+        String formattedTime = DateFormat.Hm().format(currentTime);
+
+        final iconUrl = "https://openweathermap.org/img/wn/$icon@2x.png";
+        return WeatherData(
+            cityName, temperature, condition, formattedTime, iconUrl);
+      } else {
+        print('Failed to fetch weather data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+
+    // Return constant values when the resource is not found
+    return WeatherData('Not Found', 0.0, '', '', '');
+  }
+
+  Future<WeatherData> getWeatherDataCurrent(
+      double latitude, double longitude) async {
+    final String apiKey = getKey();
+
+    final url =
+        'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
 
     try {
       final response = await http.get(Uri.parse(url));
@@ -38,6 +74,7 @@ class WeatherService {
       print('Error: $e');
     }
 
-    return WeatherData('', 0.0, '', '', '');
+    // Return constant values when the resource is not found
+    return WeatherData('Not Found', 0.0, '', '', '');
   }
 }

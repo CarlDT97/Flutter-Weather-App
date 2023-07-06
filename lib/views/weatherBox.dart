@@ -6,7 +6,6 @@ class WeatherBox extends StatelessWidget {
   final String conditions;
   final String temp;
   final String icon;
-  final bool noQuary;
 
   const WeatherBox({
     required this.location,
@@ -14,7 +13,6 @@ class WeatherBox extends StatelessWidget {
     required this.conditions,
     required this.temp,
     required this.icon,
-    required this.noQuary,
   });
 
   @override
@@ -49,13 +47,13 @@ class WeatherBox extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            if (noQuary == false)
+            if (icon.isNotEmpty)
               Image.network(
                 icon,
                 width: 120,
                 height: 120,
               ),
-            if (noQuary == true)
+            if (icon.isEmpty)
               const Icon(
                 Icons.search,
                 size: 120,
