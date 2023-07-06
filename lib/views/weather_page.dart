@@ -26,12 +26,6 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   void initState() {
     super.initState();
-    //_fetchWeatherData("");
-    location = "Enter a city";
-    timeNow = "";
-    conditions = "";
-    temperature = 0;
-    temperatureString = temperature.toStringAsFixed(1) + celsius;
     iconURL = "question";
     stateValue = true;
   }
@@ -40,7 +34,7 @@ class _WeatherPageState extends State<WeatherPage> {
     final weatherService = WeatherService();
     final weatherData = await weatherService.getWeatherData(location);
     setState(() {
-      location = weatherData.cityName;
+      this.location = weatherData.cityName;
       timeNow = weatherData.dtUtcString;
       conditions = weatherData.condition;
       temperature = weatherData.temperature;
@@ -84,7 +78,7 @@ class _WeatherPageState extends State<WeatherPage> {
                 String searchTerm = searchController.text;
                 _fetchWeatherData(searchTerm);
                 stateValue = false;
-                location = searchTerm;
+                //location = searchTerm;
                 searchController.clear();
                 Navigator.pop(context);
               },

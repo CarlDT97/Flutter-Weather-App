@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/views/forcastPage.dart';
 import 'package:weather_app/views/info_page.dart';
 import 'package:weather_app/views/weather_page.dart';
 
@@ -13,7 +12,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
   final List<Widget> views = [
     const WeatherPage(),
-    const ForcastPage(),
     const InfoPage(),
   ];
 
@@ -60,13 +58,6 @@ class _BottomNavigationState extends State<BottomNavigation> {
                     color: Colors.amberAccent,
                   ),
                   label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(
-                    Icons.forest,
-                    color: Colors.amberAccent,
-                  ),
-                  label: 'Forcast',
                 ),
                 NavigationDestination(
                   icon: Icon(

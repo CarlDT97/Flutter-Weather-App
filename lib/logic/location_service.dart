@@ -19,7 +19,7 @@ class WeatherService {
 
         final city = weatherData['name'];
         final country = weatherData['sys']['country'];
-        final cityName = city + "," + country;
+        final cityName = city + ", " + country;
         final temperature = weatherData['main']['temp'];
         final condition = weatherData['weather'][0]['description'];
         final icon = weatherData['weather'][0]['icon'];
