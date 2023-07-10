@@ -1,3 +1,4 @@
 {
-  "cmake.sourceDirectory": "/Users/carldahlqvistthuresson/Flutter-Weather-App/linux/flutter"
+  "cmake.sourceDirectory": "/Users/carldahlqvistthuresson/Flutter-Weather-App/linux/flutter",
+  "cmake.configureOnOpen": false
 }
