@@ -36,7 +36,6 @@ class WeatherService {
       print('Error: $e');
     }
 
-    // Return constant values when the resource is not found
     return WeatherData('Not Found', 0.0, '', '', '');
   }
 
@@ -73,8 +72,6 @@ class WeatherService {
     } catch (e) {
       print('Error: $e');
     }
-
-    // Return constant values when the resource is not found
     return WeatherData('Not Found', 0.0, '', '', '');
   }
 }
